@@ -1,6 +1,6 @@
 x-geonetwork-environment:
   &default-geonetwork-environment
-  WEBAPP_CONTEXT_PATH: /geonetwork
+  WEBAPP_CONTEXT_PATH: /gn-dcat-ap
   DATA_DIR: /catalogue-data
   TZ: Europe/Amsterdam
 
@@ -51,7 +51,7 @@ x-service-geonetwork:
     - "traefik.enable=true"
     - "traefik.http.routers.geonetwork.middlewares=root-redirect"
     - "traefik.http.middlewares.root-redirect.replacepathregex.regex=^/$$"
-    - "traefik.http.middlewares.root-redirect.replacepathregex.replacement=/geonetwork/"
+    - "traefik.http.middlewares.root-redirect.replacepathregex.replacement=/gn-dcat-ap/"
     - "traefik.http.routers.geonetwork.rule=Host(`geonetwork.localhost`)"
     - "traefik.http.routers.geonetwork.entrypoints=web"
     - "traefik.http.services.geonetwork.loadbalancer.server.port=8080"
@@ -70,10 +70,15 @@ x-service-geonetwork:
 
 volumes:
   geonetwork:
+    external: true
   esdata:
+    external: true
   pgdata:
+    external: true
   pglog:
+    external: true
   traefiklog:
+    external: true
 
 
 networks:
@@ -211,7 +216,7 @@ services:
     environment:
       SERVER_NAME: 'kibana'
       ELASTICSEARCH_URL: http://elasticsearch:9200/
-      SERVER_BASEPATH: /geonetwork/dashboards
+      SERVER_BASEPATH: /gn-dcat-ap/dashboards
       SERVER_REWRITEBASEPATH: 'false'
       XPACK_MONITORING_UI_CONTAINER_ELASTICSEARCH_ENABLED: 'true'
     depends_on:
